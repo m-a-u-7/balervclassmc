@@ -107,7 +107,7 @@
                 <div class="text-center space-y-3 pt-6 border-t border-gray-200">
                     <p class="text-sm text-gray-600 mb-4">Need help?</p>
                     <div class="flex justify-center space-x-6 text-sm">
-                        <a href="https://zeromapremium.github.io/webapp/" class="text-gray-600 hover:text-gray-800 transition-colors duration-200">Home</a>
+                        <a href="https://m-a-u-7.github.io/balervclassmc/" class="text-gray-600 hover:text-gray-800 transition-colors duration-200">Home</a>
                         <a href="https://t.me/MYThymM" target="_blank" class="text-gray-600 hover:text-gray-800 transition-colors duration-200">Contact Support</a>
                     </div>
                 </div>
@@ -126,14 +126,16 @@
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
         // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDE3NgCRddjLGL_dfd3eHREqngfDwUNpXo",
-            authDomain: "course-auth-f4165.firebaseapp.com",
-            projectId: "course-auth-f4165",
-            storageBucket: "course-auth-f4165.firebasestorage.app",
-            messagingSenderId: "287739198986",
-            appId: "1:287739198986:web:9c32348cad210c15b4e9f3"
-        };
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAEUsLi51WbGfuYnWn6wXWnPgUdWhgzJMI",
+  authDomain: "balervclassmc.firebaseapp.com",
+  projectId: "balervclassmc",
+  storageBucket: "balervclassmc.firebasestorage.app",
+  messagingSenderId: "517922578479",
+  appId: "1:517922578479:web:63915418905a4420bd26da",
+  measurementId: "G-QR7JEWCK6P"
+};
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
@@ -149,7 +151,7 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in, redirect to main page
-                window.location.href = 'https://zeromapremium.github.io/webapp/class/';
+                window.location.href = 'https://m-a-u-7.github.io/balervclassmc/class/';
             }
         });
 

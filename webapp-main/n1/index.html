@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>ZeroMA Premium - Classes</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Dailymotion Player API -->
+    <script src="https://api.dmcdn.net/all.js"></script>
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <style>
         /* Prevent text selection and context menu */
         * {
@@ -30,7 +34,7 @@
             pointer-events: auto;
         }
         
-        /* Block YouTube native controls completely */
+        /* Block native controls completely */
         .video-overlay {
             position: absolute;
             top: 0;
@@ -206,6 +210,20 @@
         .video-container:fullscreen {
             overflow: hidden;
         }
+
+        /* Platform badge */
+        .platform-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 5;
+        }
     </style>
 </head>
 <body class="font-sans" style="background-color: #F4F0E0;">
@@ -214,12 +232,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <a href="https://zeromapremium.github.io/webapp/class/1" class="text-2xl font-bold" style="color: #8B5A2B;">Zeroma Premium</a>
+                    <a href="https://m-a-u-7.github.io/balervclassmc/class/1/" class="text-2xl font-bold" style="color: #8B5A2B;">Zeroma Premium</a>
                 </div>
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="https://zeromapremium.github.io/webapp" class="font-medium hover:opacity-75 transition-opacity" style="color: #8B5A2B;">Home</a>
-                    <a href="https://zeromapremium.github.io/webapp/class" class="font-medium hover:opacity-75 transition-opacity" style="color: #8B5A2B;">Classes</a>
-                    <a href="https://zeromapremium.github.io/webapp/login" class="font-medium hover:opacity-75 transition-opacity" style="color: #8B5A2B;">Sign In</a>
+                    <a href="https://m-a-u-7.github.io/balervclassmc/" class="font-medium hover:opacity-75 transition-opacity" style="color: #8B5A2B;">Home</a>
+                    <a href="https://m-a-u-7.github.io/balervclassmc/class/" class="font-medium hover:opacity-75 transition-opacity" style="color: #8B5A2B;">Classes</a>
+                    <a href="https://m-a-u-7.github.io/balervclassmc/login/" class="font-medium hover:opacity-75 transition-opacity" style="color: #8B5A2B;">Sign In</a>
                     <a href="https://t.me/MYThymM" class="font-medium hover:opacity-75 transition-opacity" style="color: #8B5A2B;">Contact</a>
                 </div>
                 <div class="md:hidden flex items-center">
@@ -232,9 +250,9 @@
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
-            <a href="https://zeromapremium.github.io/webapp" class="block py-2 font-medium" style="color: #8B5A2B;">Home</a>
-            <a href="https://zeromapremium.github.io/webapp/class" class="block py-2 font-medium" style="color: #8B5A2B;">Classes</a>
-            <a href="https://zeromapremium.github.io/webapp/login" class="block py-2 font-medium" style="color: #8B5A2B;">Sign In</a>
+            <a href="https://m-a-u-7.github.io/balervclassmc/" class="block py-2 font-medium" style="color: #8B5A2B;">Home</a>
+            <a href="https://m-a-u-7.github.io/balervclassmc/class/" class="block py-2 font-medium" style="color: #8B5A2B;">Classes</a>
+            <a href="https://m-a-u-7.github.io/balervclassmc/login/" class="block py-2 font-medium" style="color: #8B5A2B;">Sign In</a>
             <a href="https://t.me/MYThymM" class="block py-2 font-medium" style="color: #8B5A2B;">Contact</a>
         </div>
     </nav>
@@ -265,8 +283,11 @@
                 <!-- Quality Badge -->
                 <div id="qualityBadge" class="quality-badge">HD</div>
                 
-                <!-- YouTube Player -->
-                <div id="youtube-player"></div>
+                <!-- Platform Badge -->
+                <div id="platformBadge" class="platform-badge">YouTube</div>
+                
+                <!-- Player Container -->
+                <div id="player-container"></div>
                 
                 <!-- Video Overlay for Click Detection -->
                 <div id="videoOverlay" class="video-overlay"></div>
@@ -345,10 +366,10 @@
                                 <button id="qualityBtn" class="control-btn">Auto HD</button>
                                 <div id="qualityDropdown" class="dropdown-menu">
                                     <div class="dropdown-item" data-quality="auto">Auto HD</div>
-                                    <div class="dropdown-item" data-quality="hd1080">1080p HD</div>
-                                    <div class="dropdown-item" data-quality="hd720">720p HD</div>
-                                    <div class="dropdown-item" data-quality="large">480p</div>
-                                    <div class="dropdown-item" data-quality="medium">360p</div>
+                                    <div class="dropdown-item" data-quality="1080">1080p HD</div>
+                                    <div class="dropdown-item" data-quality="720">720p HD</div>
+                                    <div class="dropdown-item" data-quality="480">480p</div>
+                                    <div class="dropdown-item" data-quality="360">360p</div>
                                 </div>
                             </div>
                             
@@ -393,9 +414,9 @@
                 <div>
                     <h4 class="font-semibold mb-4" style="color: #8B5A2B;">Quick Links</h4>
                     <ul class="space-y-2">
-                        <li><a href="https://zeromapremium.github.io/webapp" class="text-sm hover:opacity-75" style="color: #8B5A2B;">Home</a></li>
-                        <li><a href="https://zeromapremium.github.io/webapp/class" class="text-sm hover:opacity-75" style="color: #8B5A2B;">Classes</a></li>
-                        <li><a href="https://zeromapremium.github.io/webapp/login" class="text-sm hover:opacity-75" style="color: #8B5A2B;">Sign In</a></li>
+                        <li><a href="https://m-a-u-7.github.io/balervclassmc/" class="text-sm hover:opacity-75" style="color: #8B5A2B;">Home</a></li>
+                        <li><a href="https://m-a-u-7.github.io/balervclassmc/class/" class="text-sm hover:opacity-75" style="color: #8B5A2B;">Classes</a></li>
+                        <li><a href="https://m-a-u-7.github.io/balervclassmc/login/" class="text-sm hover:opacity-75" style="color: #8B5A2B;">Sign In</a></li>
                     </ul>
                 </div>
                 
@@ -423,125 +444,99 @@
         </div>
     </footer>
 
-    <!-- YouTube IFrame API -->
-    <script src="https://www.youtube.com/iframe_api"></script>
-    
     <!-- Custom JavaScript -->
     <script>
-// Enhanced YouTube Player with Complete Custom Controls
-// Fixed all issues: desktop mode, navigation, controls blocking, cross-browser compatibility
+// Unified Video Player with YouTube and Dailymotion Support
 
-// Mock data for classes
+// Mock data for classes - updated with both YouTube and Dailymotion videos
 const classesData = [
+    // Dailymotion videos
     {
         id: 1,
-        videoId: 'e_I5nxZ8SCc',
+        type: 'dailymotion',
+        videoId: 'x9orywe',
         title: 'HSC 27 Physics Cycle Orientation Class || Apurbo || Mashrur',
         duration: '82:59',
         noteLink: ''
     },
     {
         id: 2,
-        videoId: 'wxrsT4bYkZA',
+        type: 'dailymotion',
+        videoId: 'x9orywe',
         title: 'Vector ✘ Lecture : 02 ✘ ACS PHYSICS CYCLE 01 HSC 27',
         duration: '94:55',
         noteLink: 'https://drive.google.com/file/d/1glBxYKF1vAJGnqIVNNL_Ew0tlguUyfkT/view?usp=sharing'
     },
     {
         id: 3,
-        videoId: 'BBa-fdTC33M',
+        type: 'dailymotion',
+        videoId: 'x9orywe',
         title: 'Vector × Lecture : 03 × HSC 27',
         duration: '109:19',
         noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
     },
     {
         id: 4,
-        videoId: 'kxz86xVcx0w',
+        type: 'dailymotion',
+        videoId: 'x9orywe',
         title: 'Vector × Lecture : 04 × ACS PHYSICS CYCLE 1 HSC 27',
         duration: '72:44',
         noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
     },
     {
         id: 5,
-        videoId: 'fQcwoY_RvdU',
+        type: 'dailymotion',
+        videoId: 'x9orywe',
         title: 'HSC 27 ⊕ Vector ⊕ Lecture : 05 ⊕ ACS PHYSICS CYCLE - 01',
         duration: '77:59',
         noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
     },
+    // YouTube videos
     {
         id: 6,
-        videoId: 'zsQmjdAoEM4',
-        title: 'Vector ⊕ Lecture : 06 ⊕ Physics Cycle - 01',
-        duration: '89:47',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
+        type: 'youtube',
+        videoId: 'e_I5nxZ8SCc',
+        title: 'HSC 27 Physics Cycle Orientation Class || Apurbo || Mashrur',
+        duration: '82:59',
+        noteLink: ''
     },
     {
         id: 7,
-        videoId: 'MYvhIArn374',
-        title: 'Vector × Lecture : 07',
-        duration: '93:00',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
+        type: 'youtube',
+        videoId: 'wxrsT4bYkZA',
+        title: 'Vector ✘ Lecture : 02 ✘ ACS PHYSICS CYCLE 01 HSC 27',
+        duration: '94:55',
+        noteLink: 'https://drive.google.com/file/d/1glBxYKF1vAJGnqIVNNL_Ew0tlguUyfkT/view?usp=sharing'
     },
     {
         id: 8,
-        videoId: 'Lp2oWXMdbv8',
-        title: 'Vector × Lecture : 08',
-        duration: '87:14',
+        type: 'youtube',
+        videoId: 'BBa-fdTC33M',
+        title: 'Vector × Lecture : 03 × HSC 27',
+        duration: '109:19',
         noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
     },
     {
         id: 9,
-        videoId: 'I7U3JSxC_C0',
-        title: 'Vector × Lecture : 09',
-        duration: '94:00',
+        type: 'youtube',
+        videoId: 'kxz86xVcx0w',
+        title: 'Vector × Lecture : 04 × ACS PHYSICS CYCLE 1 HSC 27',
+        duration: '72:44',
         noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
     },
     {
         id: 10,
-        videoId: 'ZQ5YgYMYlBk',
-        title: 'Vector × Lecture : 10',
-        duration: '59:17',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
-    },
-    {
-        id: 11,
-        videoId: 'lVBCukwI2G4',
-        title: 'ভৌত জগত ও পরিমাপ | Lecture 01',
-        duration: '90:39',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
-    },
-    {
-        id: 12,
-        videoId: '8nRBq2mjRLM',
-        title: 'Vector × Lecture : 11',
-        duration: '102:32',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
-    },
-    {
-        id: 13,
-        videoId: 'tXVaP7q-hLk',
-        title: 'ভৌত জগৎ ও পরিমাপ ÷ Lecture : 02',
-        duration: '78:10',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
-    },
-    {
-        id: 14,
-        videoId: '3xCvO5s23pg',
-        title: 'Vector × Lecture : 12 × ACS PHYSICS CYCLE - 01',
-        duration: '87:18',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
-    },
-    {
-        id: 15,
-        videoId: 'gukxIVguXWA',
-        title: 'ভৌতজগত ও পরিমাপ × Lecture : 03 × ACS PHYSICS CYCLE - 01',
-        duration: '69:01',
+        type: 'youtube',
+        videoId: 'fQcwoY_RvdU',
+        title: 'HSC 27 ⊕ Vector ⊕ Lecture : 05 ⊕ ACS PHYSICS CYCLE - 01',
+        duration: '77:59',
         noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
     }
 ];
 
 // Global variables
 let player = null;
+let currentPlayerType = null;
 let currentVideoIndex = 0;
 let progressInterval = null;
 let controlsHideTimeout = null;
@@ -640,7 +635,7 @@ function setupGlobalEventListeners() {
 
 // Prevent context menu
 function preventContextMenu(e) {
-    if (e.target.closest('.video-container') || e.target.closest('#youtube-player')) {
+    if (e.target.closest('.video-container') || e.target.closest('#player-container')) {
         e.preventDefault();
         return false;
     }
@@ -682,11 +677,20 @@ function playVideo(index) {
     const videoTitle = document.getElementById('video-title');
     if (videoTitle) videoTitle.textContent = classItem.title;
 
+    // Set platform badge
+    const platformBadge = document.getElementById('platformBadge');
+    if (platformBadge) platformBadge.textContent = classItem.type.charAt(0).toUpperCase() + classItem.type.slice(1);
+
     // Clean up previous player completely
     cleanupPlayer();
 
-    // Initialize new player
-    initYouTubePlayer(classItem.videoId);
+    // Initialize new player based on type
+    currentPlayerType = classItem.type;
+    if (classItem.type === 'youtube') {
+        initYouTubePlayer(classItem.videoId);
+    } else if (classItem.type === 'dailymotion') {
+        initDailymotionPlayer(classItem.videoId);
+    }
 
     // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -717,14 +721,24 @@ function cleanupPlayer() {
     cleanupEventListeners();
 
     // Destroy existing player
-    if (player && typeof player.destroy === 'function') {
+    if (player && currentPlayerType === 'youtube' && typeof player.destroy === 'function') {
         try {
             player.destroy();
         } catch (e) {
-            console.warn('Error destroying player:', e);
+            console.warn('Error destroying YouTube player:', e);
+        }
+    } else if (player && currentPlayerType === 'dailymotion' && typeof player.destroy === 'function') {
+        try {
+            player.destroy();
+        } catch (e) {
+            console.warn('Error destroying Dailymotion player:', e);
         }
     }
     player = null;
+    
+    // Clear the player container
+    const playerContainer = document.getElementById('player-container');
+    if (playerContainer) playerContainer.innerHTML = '';
     
     // Reset UI elements
     resetProgressBar();
@@ -763,8 +777,14 @@ function initYouTubePlayer(videoId) {
     const loadingSpinner = document.getElementById('loadingSpinner');
     if (loadingSpinner) loadingSpinner.style.display = 'block';
 
-    // Enhanced player configuration to block ALL native controls
-    player = new YT.Player('youtube-player', {
+    // Create player container
+    const playerContainer = document.getElementById('player-container');
+    if (!playerContainer) return;
+    
+    playerContainer.innerHTML = '<div id="yt-player"></div>';
+    
+    // Initialize YouTube player
+    player = new YT.Player('yt-player', {
         height: '100%',
         width: '100%',
         videoId: videoId,
@@ -784,15 +804,55 @@ function initYouTubePlayer(videoId) {
             'widget_referrer': window.location.href
         },
         events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange,
+            'onReady': onYouTubePlayerReady,
+            'onStateChange': onYouTubePlayerStateChange,
             'onError': onPlayerError
         }
     });
 }
 
-// Player ready handler
-function onPlayerReady(event) {
+// Initialize Dailymotion player with enhanced controls blocking
+function initDailymotionPlayer(videoId) {
+    if (isDestroying) return;
+    
+    // Show loading spinner
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    if (loadingSpinner) loadingSpinner.style.display = 'block';
+
+    // Create player container
+    const playerContainer = document.getElementById('player-container');
+    if (!playerContainer) return;
+    
+    playerContainer.innerHTML = '<div id="dm-player"></div>';
+    
+    // Initialize Dailymotion player
+    player = DM.player('dm-player', {
+        video: videoId,
+        width: '100%',
+        height: '100%',
+        params: {
+            controls: false, // Hide all controls
+            autoplay: false, // We'll control autoplay
+            mute: 0, // Start unmuted
+            quality: '1080', // Force highest quality
+            'ui-logo': false, // Hide logo
+            'ui-start-screen-info': false // Hide info
+        },
+        origin: window.location.origin
+    });
+    
+    // Set up event listeners
+    player.addEventListener('apiready', onDailymotionPlayerReady);
+    player.addEventListener('play', onDailymotionPlayerPlay);
+    player.addEventListener('pause', onDailymotionPlayerPause);
+    player.addEventListener('ended', onPlayerEnded);
+    player.addEventListener('error', onPlayerError);
+    player.addEventListener('waiting', onPlayerWaiting);
+    player.addEventListener('start', onPlayerStart);
+}
+
+// YouTube Player ready handler
+function onYouTubePlayerReady(event) {
     if (isDestroying) return;
     
     isPlayerReady = true;
@@ -818,11 +878,44 @@ function onPlayerReady(event) {
     }, 1000);
 }
 
-// Block native YouTube controls completely
+// Dailymotion Player ready handler
+function onDailymotionPlayerReady() {
+    if (isDestroying) return;
+    
+    isPlayerReady = true;
+    
+    // Hide loading spinner
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    if (loadingSpinner) loadingSpinner.style.display = 'none';
+
+    // Block native controls completely
+    blockNativeControls();
+    
+    // Setup all custom controls
+    setupAllCustomControls();
+    
+    // Show custom controls initially
+    showControls();
+    
+    // Start quality optimization
+    setTimeout(() => {
+        if (isPlayerReady && !isDestroying) {
+            startQualityOptimization();
+        }
+    }, 1000);
+}
+
+// Block native controls completely
 function blockNativeControls() {
     if (!player || isDestroying) return;
     
-    const iframe = player.getIframe();
+    let iframe;
+    if (currentPlayerType === 'youtube') {
+        iframe = document.querySelector('#player-container iframe');
+    } else if (currentPlayerType === 'dailymotion') {
+        iframe = document.querySelector('#player-container iframe');
+    }
+    
     if (iframe) {
         // Prevent all mouse events on the iframe
         iframe.style.pointerEvents = 'none';
@@ -838,8 +931,8 @@ function blockNativeControls() {
     }
 }
 
-// Player state change handler
-function onPlayerStateChange(event) {
+// YouTube Player state change handler
+function onYouTubePlayerStateChange(event) {
     if (isDestroying) return;
     
     const isPlaying = event.data === YT.PlayerState.PLAYING;
@@ -857,19 +950,59 @@ function onPlayerStateChange(event) {
     setTimeout(blockNativeControls, 100);
 }
 
+// Dailymotion Player play handler
+function onDailymotionPlayerPlay() {
+    if (isDestroying) return;
+    
+    // Update play/pause icons
+    updatePlayPauseIcons(true);
+    startProgressUpdate();
+}
+
+// Dailymotion Player pause handler
+function onDailymotionPlayerPause() {
+    if (isDestroying) return;
+    
+    // Update play/pause icons
+    updatePlayPauseIcons(false);
+    stopProgressUpdate();
+}
+
+// Player ended handler
+function onPlayerEnded() {
+    if (isDestroying) return;
+    
+    // Auto-play next video if available
+    if (currentVideoIndex < classesData.length - 1) {
+        setTimeout(() => {
+            playVideo(currentVideoIndex + 1);
+        }, 2000);
+    }
+}
+
 // Player error handler
-function onPlayerError(event) {
-    console.error('YouTube Player Error:', event.data);
+function onPlayerError(e) {
+    console.error('Player Error:', e);
     
     const loadingSpinner = document.getElementById('loadingSpinner');
     if (loadingSpinner) {
         loadingSpinner.innerHTML = `
             <div class="text-white text-center">
                 <p>Error loading video</p>
-                <p class="text-sm opacity-75">Error code: ${event.data}</p>
+                <p class="text-sm opacity-75">Please try again later</p>
             </div>
         `;
     }
+}
+
+// Player waiting handler
+function onPlayerWaiting() {
+    // Show loading indicator if needed
+}
+
+// Player start handler
+function onPlayerStart() {
+    // Video started playing
 }
 
 // Update play/pause icons
@@ -918,10 +1051,18 @@ function setupControlsVisibility() {
         
         // Toggle play/pause on click
         if (player && isPlayerReady) {
-            if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-                player.pauseVideo();
-            } else {
-                player.playVideo();
+            if (currentPlayerType === 'youtube') {
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                } else {
+                    player.playVideo();
+                }
+            } else if (currentPlayerType === 'dailymotion') {
+                if (player.paused) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
             }
         }
     };
@@ -999,10 +1140,18 @@ function setupPlayPauseControls() {
         const clickHandler = () => {
             if (!player || !isPlayerReady) return;
             
-            if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-                player.pauseVideo();
-            } else {
-                player.playVideo();
+            if (currentPlayerType === 'youtube') {
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                } else {
+                    player.playVideo();
+                }
+            } else if (currentPlayerType === 'dailymotion') {
+                if (player.paused) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
             }
         };
         
@@ -1019,8 +1168,14 @@ function setupSeekControls() {
         const backHandler = () => {
             if (!player || !isPlayerReady) return;
             
-            const currentTime = player.getCurrentTime();
-            player.seekTo(Math.max(0, currentTime - 10));
+            let currentTime;
+            if (currentPlayerType === 'youtube') {
+                currentTime = player.getCurrentTime();
+                player.seekTo(Math.max(0, currentTime - 10));
+            } else if (currentPlayerType === 'dailymotion') {
+                currentTime = player.currentTime;
+                player.seek(Math.max(0, currentTime - 10));
+            }
         };
         
         addTrackedEventListener(skipBackBtn, 'click', backHandler);
@@ -1030,9 +1185,16 @@ function setupSeekControls() {
         const forwardHandler = () => {
             if (!player || !isPlayerReady) return;
             
-            const currentTime = player.getCurrentTime();
-            const duration = player.getDuration();
-            player.seekTo(Math.min(duration, currentTime + 10));
+            let currentTime, duration;
+            if (currentPlayerType === 'youtube') {
+                currentTime = player.getCurrentTime();
+                duration = player.getDuration();
+                player.seekTo(Math.min(duration, currentTime + 10));
+            } else if (currentPlayerType === 'dailymotion') {
+                currentTime = player.currentTime;
+                duration = player.duration;
+                player.seek(Math.min(duration, currentTime + 10));
+            }
         };
         
         addTrackedEventListener(skipForwardBtn, 'click', forwardHandler);
@@ -1049,10 +1211,17 @@ function setupProgressBar() {
             
             const rect = e.target.getBoundingClientRect();
             const percent = (e.clientX - rect.left) / rect.width;
-            const duration = player.getDuration();
             
-            if (duration > 0) {
-                player.seekTo(duration * percent);
+            if (currentPlayerType === 'youtube') {
+                const duration = player.getDuration();
+                if (duration > 0) {
+                    player.seekTo(duration * percent);
+                }
+            } else if (currentPlayerType === 'dailymotion') {
+                const duration = player.duration;
+                if (duration > 0) {
+                    player.seek(duration * percent);
+                }
             }
         };
         
@@ -1069,12 +1238,22 @@ function setupVolumeControls() {
         const muteHandler = () => {
             if (!player || !isPlayerReady) return;
             
-            if (player.isMuted()) {
-                player.unMute();
-                updateVolumeIcons(false);
-            } else {
-                player.mute();
-                updateVolumeIcons(true);
+            if (currentPlayerType === 'youtube') {
+                if (player.isMuted()) {
+                    player.unMute();
+                    updateVolumeIcons(false);
+                } else {
+                    player.mute();
+                    updateVolumeIcons(true);
+                }
+            } else if (currentPlayerType === 'dailymotion') {
+                if (player.muted) {
+                    player.setMute(false);
+                    updateVolumeIcons(false);
+                } else {
+                    player.setMute(true);
+                    updateVolumeIcons(true);
+                }
             }
         };
         
@@ -1085,8 +1264,14 @@ function setupVolumeControls() {
         const volumeHandler = (e) => {
             if (!player || !isPlayerReady) return;
             
-            player.setVolume(parseInt(e.target.value));
-            updateVolumeIcons(parseInt(e.target.value) === 0);
+            const volume = parseInt(e.target.value);
+            if (currentPlayerType === 'youtube') {
+                player.setVolume(volume);
+                updateVolumeIcons(volume === 0);
+            } else if (currentPlayerType === 'dailymotion') {
+                player.setVolume(volume / 100);
+                updateVolumeIcons(volume === 0);
+            }
         };
         
         addTrackedEventListener(volumeSlider, 'input', volumeHandler);
@@ -1131,7 +1316,11 @@ function setupSpeedControls() {
                 if (!player || !isPlayerReady) return;
                 
                 const speed = parseFloat(e.target.dataset.speed);
-                player.setPlaybackRate(speed);
+                if (currentPlayerType === 'youtube') {
+                    player.setPlaybackRate(speed);
+                } else if (currentPlayerType === 'dailymotion') {
+                    player.setPlaybackRate(speed);
+                }
                 speedBtn.textContent = speed + 'x';
                 speedDropdown.classList.remove('show');
             };
@@ -1172,7 +1361,20 @@ function setupQualityControls() {
                         clearInterval(qualityCheckInterval);
                         qualityCheckInterval = null;
                     }
-                    player.setPlaybackQuality(quality);
+                    
+                    if (currentPlayerType === 'youtube') {
+                        // Map quality values for YouTube
+                        const qualityMap = {
+                            '1080': 'hd1080',
+                            '720': 'hd720',
+                            '480': 'large',
+                            '360': 'medium'
+                        };
+                        player.setPlaybackQuality(qualityMap[quality] || 'auto');
+                    } else if (currentPlayerType === 'dailymotion') {
+                        player.setQuality(quality);
+                    }
+                    
                     qualityBtn.textContent = e.target.textContent;
                 }
                 
@@ -1316,7 +1518,11 @@ function closeVideo() {
 
 // Open note function
 function openNote(noteLink) {
-    window.open(noteLink, '_blank', 'noopener,noreferrer');
+    if (noteLink && noteLink.trim() !== '') {
+        window.open(noteLink, '_blank', 'noopener,noreferrer');
+    } else {
+        alert('No note/PDF available for this video.');
+    }
 }
 
 // Progress update functions
@@ -1327,8 +1533,14 @@ function startProgressUpdate() {
         if (!player || !isPlayerReady || isDestroying) return;
         
         try {
-            const currentTime = player.getCurrentTime();
-            const duration = player.getDuration();
+            let currentTime, duration;
+            if (currentPlayerType === 'youtube') {
+                currentTime = player.getCurrentTime();
+                duration = player.getDuration();
+            } else if (currentPlayerType === 'dailymotion') {
+                currentTime = player.currentTime;
+                duration = player.duration;
+            }
             
             if (duration > 0) {
                 const percentage = (currentTime / duration) * 100;
@@ -1375,34 +1587,43 @@ function startQualityOptimization() {
         clearInterval(qualityCheckInterval);
     }
     
-    qualityCheckInterval = setInterval(() => {
-        if (!player || !isPlayerReady || isDestroying) return;
-        
-        try {
-            const availableQualities = player.getAvailableQualityLevels();
+    // For YouTube, we need to check available qualities
+    if (currentPlayerType === 'youtube') {
+        qualityCheckInterval = setInterval(() => {
+            if (!player || !isPlayerReady || isDestroying) return;
             
-            if (availableQualities && availableQualities.length > 0) {
-                let selectedQuality = 'large';
-                let badgeText = 'HD';
+            try {
+                const availableQualities = player.getAvailableQualityLevels();
                 
-                if (availableQualities.includes('hd1080')) {
-                    selectedQuality = 'hd1080';
-                    badgeText = '1080p HD';
-                } else if (availableQualities.includes('hd720')) {
-                    selectedQuality = 'hd720';
-                    badgeText = '720p HD';
-                } else if (availableQualities.includes('large')) {
-                    selectedQuality = 'large';
-                    badgeText = '480p HD';
+                if (availableQualities && availableQualities.length > 0) {
+                    let selectedQuality = 'large';
+                    let badgeText = 'HD';
+                    
+                    if (availableQualities.includes('hd1080')) {
+                        selectedQuality = 'hd1080';
+                        badgeText = '1080p HD';
+                    } else if (availableQualities.includes('hd720')) {
+                        selectedQuality = 'hd720';
+                        badgeText = '720p HD';
+                    } else if (availableQualities.includes('large')) {
+                        selectedQuality = 'large';
+                        badgeText = '480p HD';
+                    }
+                    
+                    player.setPlaybackQuality(selectedQuality);
+                    updateQualityBadge(badgeText);
                 }
-                
-                player.setPlaybackQuality(selectedQuality);
-                updateQualityBadge(badgeText);
+            } catch (e) {
+                console.warn('Quality optimization error:', e);
             }
-        } catch (e) {
-            console.warn('Quality optimization error:', e);
+        }, 3000);
+    } else if (currentPlayerType === 'dailymotion') {
+        // Dailymotion automatically selects the best quality, so we just set it to auto
+        if (player && isPlayerReady) {
+            player.setQuality('auto');
+            updateQualityBadge('Auto HD');
         }
-    }, 3000);
+    }
 }
 
 // Update quality badge
@@ -1430,34 +1651,65 @@ function handleKeyboardShortcuts(e) {
         switch (e.code) {
             case 'Space':
                 e.preventDefault();
-                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-                    player.pauseVideo();
-                } else {
-                    player.playVideo();
+                if (currentPlayerType === 'youtube') {
+                    if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                        player.pauseVideo();
+                    } else {
+                        player.playVideo();
+                    }
+                } else if (currentPlayerType === 'dailymotion') {
+                    if (player.paused) {
+                        player.play();
+                    } else {
+                        player.pause();
+                    }
                 }
                 break;
                 
             case 'ArrowLeft':
                 e.preventDefault();
-                const currentTime = player.getCurrentTime();
-                player.seekTo(Math.max(0, currentTime - 10));
+                let currentTime;
+                if (currentPlayerType === 'youtube') {
+                    currentTime = player.getCurrentTime();
+                    player.seekTo(Math.max(0, currentTime - 10));
+                } else if (currentPlayerType === 'dailymotion') {
+                    currentTime = player.currentTime;
+                    player.seek(Math.max(0, currentTime - 10));
+                }
                 break;
                 
             case 'ArrowRight':
                 e.preventDefault();
-                const currentTimeRight = player.getCurrentTime();
-                const duration = player.getDuration();
-                player.seekTo(Math.min(duration, currentTimeRight + 10));
+                let currentTimeRight, duration;
+                if (currentPlayerType === 'youtube') {
+                    currentTimeRight = player.getCurrentTime();
+                    duration = player.getDuration();
+                    player.seekTo(Math.min(duration, currentTimeRight + 10));
+                } else if (currentPlayerType === 'dailymotion') {
+                    currentTimeRight = player.currentTime;
+                    duration = player.duration;
+                    player.seek(Math.min(duration, currentTimeRight + 10));
+                }
                 break;
                 
             case 'KeyM':
                 e.preventDefault();
-                if (player.isMuted()) {
-                    player.unMute();
-                    updateVolumeIcons(false);
-                } else {
-                    player.mute();
-                    updateVolumeIcons(true);
+                if (currentPlayerType === 'youtube') {
+                    if (player.isMuted()) {
+                        player.unMute();
+                        updateVolumeIcons(false);
+                    } else {
+                        player.mute();
+                        updateVolumeIcons(true);
+                    }
+                } else if (currentPlayerType === 'dailymotion') {
+                    if (player.muted) {
+                        player.setMute(false);
+                        updateVolumeIcons(false);
+                    } else {
+                        player.setMute(true);
+                        updateVolumeIcons(true);
+                    }
                 }
                 break;
                 
@@ -1558,11 +1810,45 @@ if (isMobile) {
 document.addEventListener('visibilitychange', () => {
     if (document.hidden && player && isPlayerReady) {
         // Optionally pause when page is hidden
-        // player.pauseVideo();
+        // if (currentPlayerType === 'youtube') player.pauseVideo();
+        // else if (currentPlayerType === 'dailymotion') player.pause();
     }
 });
 
-console.log('Enhanced YouTube Player initialized with complete custom controls');
+console.log('Unified Video Player initialized with YouTube and Dailymotion support');
     </script>
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAEUsLi51WbGfuYnWn6wXWnPgUdWhgzJMI",
+  authDomain: "balervclassmc.firebaseapp.com",
+  projectId: "balervclassmc",
+  storageBucket: "balervclassmc.firebasestorage.app",
+  messagingSenderId: "517922578479",
+  appId: "1:517922578479:web:63915418905a4420bd26da",
+  measurementId: "G-QR7JEWCK6P"
+};
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 🔒 Check if user is logged in
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            // 🚪 Not logged in, redirect to login page with returnTo URL
+            const currentUrl = window.location.href;
+            const loginUrl = `https://m-a-u-7.github.io/balervclassmc/login/?returnTo=${encodeURIComponent(currentUrl)}`;
+            console.log("⛔ Not logged in, redirecting to:", loginUrl);
+            window.location.href = loginUrl;
+        } else {
+            console.log("✅ Logged in as:", user.email);
+            // You can allow page content to load here
+        }
+    });
+</script>
 </body>
 </html>
