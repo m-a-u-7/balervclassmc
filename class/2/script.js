@@ -193,6 +193,24 @@ function initializeEventListeners() {
             closeVideo();
         });
     }
+
+    // Copy link buttons
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const mobileCopyLinkBtn = document.getElementById('mobileCopyLinkBtn');
+    
+    if (copyLinkBtn) {
+        copyLinkBtn.addEventListener('click', function() {
+            console.log('Desktop copy link button clicked');
+            copyYouTubeLink();
+        });
+    }
+    
+    if (mobileCopyLinkBtn) {
+        mobileCopyLinkBtn.addEventListener('click', function() {
+            console.log('Mobile copy link button clicked');
+            copyYouTubeLink();
+        });
+    }
     
     console.log('Event listeners set up successfully!');
 }
@@ -801,6 +819,101 @@ function formatTime(seconds) {
     return h > 0 
         ? `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
         : `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+// Copy YouTube link to clipboard
+function copyYouTubeLink() {
+    if (!currentVideoData || !currentVideoData.id) {
+        console.warn('No video data available for copying link');
+        showNotification('কোনো ভিডিও খোলা নেই', 'error');
+        return;
+    }
+    
+    const youtubeUrl = `https://www.youtube.com/watch?v=${currentVideoData.id}`;
+    
+    // Try modern clipboard API first
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(youtubeUrl).then(() => {
+            console.log('YouTube link copied to clipboard:', youtubeUrl);
+            showNotification('ইউটিউব লিঙ্ক কপি হয়েছে!', 'success');
+        }).catch(err => {
+            console.error('Failed to copy link:', err);
+            fallbackCopyTextToClipboard(youtubeUrl);
+        });
+    } else {
+        // Fallback for older browsers
+        fallbackCopyTextToClipboard(youtubeUrl);
+    }
+}
+
+// Fallback copy method for older browsers
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            console.log('YouTube link copied to clipboard (fallback):', text);
+            showNotification('ইউটিউব লিঙ্ক কপি হয়েছে!', 'success');
+        } else {
+            console.error('Failed to copy link using fallback method');
+            showNotification('লিঙ্ক কপি করতে সমস্যা হয়েছে', 'error');
+        }
+    } catch (err) {
+        console.error('Fallback copy failed:', err);
+        showNotification('লিঙ্ক কপি করতে সমস্যা হয়েছে', 'error');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// Show notification to user
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.copy-notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `copy-notification fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-[10000] transition-all duration-300 transform translate-x-full`;
+    
+    // Set colors based on type
+    if (type === 'success') {
+        notification.className += ' bg-green-500 text-white';
+    } else if (type === 'error') {
+        notification.className += ' bg-red-500 text-white';
+    } else {
+        notification.className += ' bg-blue-500 text-white';
+    }
+    
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.classList.remove('translate-x-full');
+    }, 100);
+    
+    // Animate out and remove
+    setTimeout(() => {
+        notification.classList.add('translate-x-full');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
 }
 
 console.log('ZeroMA Premium - BALANCED SECURITY VIDEO PLAYER LOADED');

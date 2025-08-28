@@ -35,7 +35,7 @@ const YOUTUBE_SECURITY_CONFIG = {
 
 // Initialize YouTube API
 function onYouTubeIframeAPIReady() {
-    console.log('YouTube API Ready - ENHANCED MOBILE/DESKTOP MODE');
+    console.log('YouTube API Ready - BALANCED SECURITY MODE');
 }
 
 // Initialize application
@@ -45,15 +45,12 @@ document.addEventListener('DOMContentLoaded', function() {
     implementBalancedSecurity();
     initializeEventListeners();
     handleMobileMenu();
-    initializeCardDisplay();
     
     // Update mobile status on resize
     window.addEventListener('resize', function() {
         const newIsMobile = window.innerWidth < 768;
         if (newIsMobile !== isMobile) {
             isMobile = newIsMobile;
-            handleCardDisplayOnResize();
-            
             if (isVideoPlaying && player) {
                 closeVideo();
                 setTimeout(() => {
@@ -66,50 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('ZeroMA Premium Video Player initialized successfully!');
 });
 
-// ENHANCED: Initialize card display logic
-function initializeCardDisplay() {
-    console.log('Initializing card display logic...');
-    
-    // Set initial card display based on screen size
-    updateCardDisplay();
-    
-    console.log('Card display logic initialized');
-}
-
-// ENHANCED: Update card display based on screen size and video state
-function updateCardDisplay() {
-    const cards = document.querySelectorAll('.video-card');
-    
-    cards.forEach(card => {
-        const desktopContent = card.querySelector('.desktop-card-content');
-        const mobileContent = card.querySelector('.mobile-card-content');
-        
-        if (isMobile) {
-            // On mobile: always show mobile cards
-            desktopContent.style.display = 'none';
-            mobileContent.style.display = 'block';
-        } else if (isVideoPlaying) {
-            // On desktop with video playing: show mobile cards in sidebar
-            desktopContent.style.display = 'none';
-            mobileContent.style.display = 'block';
-        } else {
-            // On desktop without video: show desktop cards
-            desktopContent.style.display = 'block';
-            mobileContent.style.display = 'none';
-        }
-    });
-}
-
-// ENHANCED: Handle card display on window resize
-function handleCardDisplayOnResize() {
-    if (!isVideoPlaying) {
-        updateCardDisplay();
-    }
-}
-
 // CRITICAL: Implement balanced security - Block YouTube but allow our controls
 function implementBalancedSecurity() {
-    console.log('Implementing enhanced balanced security...');
+    console.log('Implementing balanced security...');
     
     // Only block YouTube-specific keyboard shortcuts when video is playing
     document.addEventListener('keydown', function(e) {
@@ -170,7 +126,7 @@ function implementBalancedSecurity() {
             blocker.addEventListener('contextmenu', e => e.stopPropagation());
         }
     });
-    console.log('Enhanced balanced security implemented successfully!');
+    console.log('Balanced security implemented successfully!');
 }
 
 // Handle custom keyboard shortcuts
@@ -207,11 +163,11 @@ function adjustVolume(change) {
     updateVolumeIcons(newVolume === 0);
 }
 
-// ENHANCED: Initialize event listeners for UI elements
+// Initialize event listeners for UI elements
 function initializeEventListeners() {
-    console.log('Setting up enhanced event listeners...');
+    console.log('Setting up event listeners...');
     
-    // Watch buttons - CRITICAL: These must work for both desktop and mobile cards!
+    // Watch buttons - CRITICAL: These must work!
     document.querySelectorAll('.watch-btn').forEach((button, index) => {
         console.log(`Setting up watch button ${index + 1}`);
         button.addEventListener('click', function(e) {
@@ -237,8 +193,26 @@ function initializeEventListeners() {
             closeVideo();
         });
     }
+
+    // Copy link buttons
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const mobileCopyLinkBtn = document.getElementById('mobileCopyLinkBtn');
     
-    console.log('Enhanced event listeners set up successfully!');
+    if (copyLinkBtn) {
+        copyLinkBtn.addEventListener('click', function() {
+            console.log('Desktop copy link button clicked');
+            copyYouTubeLink();
+        });
+    }
+    
+    if (mobileCopyLinkBtn) {
+        mobileCopyLinkBtn.addEventListener('click', function() {
+            console.log('Mobile copy link button clicked');
+            copyYouTubeLink();
+        });
+    }
+    
+    console.log('Event listeners set up successfully!');
 }
 
 // Handle mobile menu
@@ -253,7 +227,7 @@ function handleMobileMenu() {
     }
 }
 
-// ENHANCED: Handle watch button click
+// Handle watch button click
 function handleWatchClick(event) {
     console.log('Processing watch button click...');
     
@@ -274,7 +248,7 @@ function handleWatchClick(event) {
     openVideo(videoData);
 }
 
-// ENHANCED: Open video with improved mobile/desktop logic
+// Open video with security
 function openVideo(videoData) {
     console.log('Opening video in', isMobile ? 'mobile' : 'desktop', 'mode');
     
@@ -286,16 +260,11 @@ function openVideo(videoData) {
     } else {
         openDesktopVideo(videoData);
     }
-    
-    // Update card display after opening video
-    setTimeout(() => {
-        updateCardDisplay();
-    }, 300);
 }
 
-// ENHANCED: Open mobile video with improved scrollability and layout
+// FIXED: Open mobile video with proper z-index
 function openMobileVideo(videoData) {
-    console.log('Setting up enhanced mobile video player...');
+    console.log('Setting up mobile video player...');
     
     const modal = document.getElementById('mobileVideoModal');
     const title = document.getElementById('mobileVideoTitle');
@@ -309,7 +278,7 @@ function openMobileVideo(videoData) {
     title.textContent = videoData.title;
     description.textContent = videoData.description;
 
-    // ENHANCED: Ensure modal appears above everything with scrolling
+    // FIXED: Ensure modal appears above everything
     modal.style.zIndex = '9999';
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
@@ -322,7 +291,7 @@ function openMobileVideo(videoData) {
 
     // Create player
     setTimeout(() => {
-        console.log('Creating enhanced mobile YouTube player...');
+        console.log('Creating mobile YouTube player...');
         player = new YT.Player('mobileVideoPlayer', {
             height: '100%',
             width: '100%',
@@ -337,9 +306,9 @@ function openMobileVideo(videoData) {
     }, 100);
 }
 
-// ENHANCED: Open desktop video with improved sidebar positioning
+// FIXED: Open desktop video with improved positioning
 function openDesktopVideo(videoData) {
-    console.log('Setting up enhanced desktop video player...');
+    console.log('Setting up desktop video player...');
     
     const container = document.getElementById('videoPlayerContainer');
     const title = document.getElementById('videoTitle');
@@ -356,19 +325,14 @@ function openDesktopVideo(videoData) {
 
     container.classList.remove('hidden');
     
-    // ENHANCED: Transform grid to sidebar layout with smooth transitions
-    cardsGrid.classList.add('transitioning');
+    // FIXED: Transform grid layout with proper positioning
+    cardsGrid.classList.add('lg:grid-cols-2', 'lg:w-80', 'lg:fixed', 'lg:right-8', 'lg:top-1/2', 'lg:-translate-y-1/2', 'lg:z-40', 'lg:max-h-[70vh]', 'lg:overflow-y-auto');
+    cardsGrid.classList.remove('lg:grid-cols-3');
+    container.classList.add('lg:mr-96');
     document.body.classList.add('video-playing');
 
-    // ENHANCED: Smooth scroll to prevent positioning issues
+    // FIXED: Scroll to top to prevent positioning issues
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // ENHANCED: Apply sidebar styles with transition
-    setTimeout(() => {
-        cardsGrid.classList.add('ready');
-        cardsGrid.classList.remove('transitioning');
-        updateCardDisplay(); // Switch to mobile card format
-    }, 100);
 
     // Destroy existing player
     if (player) {
@@ -378,7 +342,7 @@ function openDesktopVideo(videoData) {
 
     // Create player
     setTimeout(() => {
-        console.log('Creating enhanced desktop YouTube player...');
+        console.log('Creating desktop YouTube player...');
         player = new YT.Player('videoPlayer', {
             height: '100%',
             width: '100%',
@@ -422,12 +386,8 @@ function applySecurityMeasures(mode) {
         clone.removeAttribute('allowfullscreen');
         
         // Block YouTube event listeners
-        if (clone.contentWindow) {
-            clone.contentWindow.addEventListener = function() {};
-        }
-        if (clone.contentDocument) {
-            clone.contentDocument.addEventListener = function() {};
-        }
+        clone.contentWindow.addEventListener = function() {};
+        clone.contentDocument.addEventListener = function() {};
         
         console.log('Enhanced security applied!');
     }
@@ -460,7 +420,7 @@ function onPlayerReady(event) {
         applySecurityMeasures(isMobile ? 'mobile' : 'desktop');
     }, 500);
     
-    console.log('Enhanced player setup complete!');
+    console.log('Player setup complete!');
 }
 
 function onPlayerStateChange(event) {
@@ -497,12 +457,12 @@ function updatePlayPauseIcons(isPlaying) {
 
 // Initialize custom controls
 function initializeCustomControls() {
-    console.log('Setting up enhanced custom controls...');
+    console.log('Setting up custom controls...');
     
     initializeDesktopControls();
     initializeMobileControls();
     
-    console.log('Enhanced custom controls ready!');
+    console.log('Custom controls ready!');
 }
 
 function initializeDesktopControls() {
@@ -520,7 +480,7 @@ function initializeDesktopControls() {
     // Progress bar
     addListener('progressBar', 'click', handleProgressClick);
     
-    // ENHANCED: Fullscreen with proper z-index
+    // Fullscreen
     addListener('fullscreenBtn', 'click', toggleSecureFullscreen);
     
     // Speed and quality
@@ -546,10 +506,7 @@ function initializeMobileControls() {
     addListener('mobileVolumeBtn', 'click', toggleMute);
     addListener('mobileVolumeSlider', 'input', handleVolumeChange);
     addListener('mobileProgressBar', 'click', handleProgressClick);
-    
-    // ENHANCED: Mobile fullscreen with proper z-index
     addListener('mobileFullscreenBtn', 'click', toggleSecureFullscreen);
-    
     addListener('mobileSpeedBtn', 'click', () => toggleMenu('mobileSpeedMenu'));
     addListener('mobileQualityBtn', 'click', () => toggleMenu('mobileQualityMenu'));
     
@@ -580,9 +537,9 @@ function addListener(elementOrId, event, handler) {
     }
 }
 
-// ENHANCED: Close video with proper card layout restoration
+// FIXED: Close video with proper cleanup
 function closeVideo() {
-    console.log('Closing enhanced video...');
+    console.log('Closing video...');
     
     isVideoPlaying = false;
     currentVideoData = null;
@@ -608,15 +565,10 @@ function closeVideo() {
         const cardsGrid = document.getElementById('cardsGrid');
         
         container.classList.add('hidden');
-        
-        // ENHANCED: Restore original grid layout
-        cardsGrid.classList.add('transitioning');
+        container.classList.remove('lg:mr-96');
+        cardsGrid.classList.remove('lg:grid-cols-2', 'lg:w-80', 'lg:fixed', 'lg:right-8', 'lg:top-1/2', 'lg:-translate-y-1/2', 'lg:z-40', 'lg:max-h-[70vh]', 'lg:overflow-y-auto');
+        cardsGrid.classList.add('lg:grid-cols-3');
         document.body.classList.remove('video-playing');
-        
-        setTimeout(() => {
-            cardsGrid.classList.remove('ready', 'transitioning');
-            updateCardDisplay(); // Switch back to desktop cards
-        }, 100);
     }
 
     // Destroy player
@@ -625,7 +577,7 @@ function closeVideo() {
         player = null;
     }
     
-    console.log('Enhanced video closed successfully');
+    console.log('Video closed successfully');
 }
 
 // Custom control functions
@@ -718,36 +670,15 @@ function handleVolumeChange(event) {
     if (otherSlider) otherSlider.value = volume;
 }
 
-// ENHANCED: Secure fullscreen with proper element targeting
 function toggleSecureFullscreen() {
-    console.log('Toggling secure fullscreen...');
+    const element = isMobile 
+        ? document.getElementById('mobileVideoModal')
+        : document.getElementById('videoPlayerWrapper');
     
     if (document.fullscreenElement) {
-        document.exitFullscreen().catch(err => {
-            console.warn('Exit fullscreen failed:', err);
-        });
-    } else {
-        let element;
-        
-        if (isMobile) {
-            // For mobile: target only the video container, not the entire modal
-            element = document.querySelector('#mobileVideoModal .youtube-locked');
-        } else {
-            // For desktop: target the video wrapper
-            element = document.getElementById('videoPlayerWrapper');
-        }
-        
-        console.log('Requesting fullscreen for:', element);
-        
-        if (element && element.requestFullscreen) {
-            element.requestFullscreen().catch(err => {
-                console.warn('Request fullscreen failed:', err);
-                // Fallback: try webkit fullscreen
-                if (element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                }
-            });
-        }
+        document.exitFullscreen();
+    } else if (element) {
+        element.requestFullscreen();
     }
 }
 
@@ -890,8 +821,100 @@ function formatTime(seconds) {
         : `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-console.log('ZeroMA Premium - ENHANCED MOBILE/DESKTOP VIDEO PLAYER LOADED');
+// Copy YouTube link to clipboard
+function copyYouTubeLink() {
+    if (!currentVideoData || !currentVideoData.id) {
+        console.warn('No video data available for copying link');
+        showNotification('কোনো ভিডিও খোলা নেই', 'error');
+        return;
+    }
+    
+    const youtubeUrl = `https://www.youtube.com/watch?v=${currentVideoData.id}`;
+    
+    // Try modern clipboard API first
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(youtubeUrl).then(() => {
+            console.log('YouTube link copied to clipboard:', youtubeUrl);
+            showNotification('ইউটিউব লিঙ্ক কপি হয়েছে!', 'success');
+        }).catch(err => {
+            console.error('Failed to copy link:', err);
+            fallbackCopyTextToClipboard(youtubeUrl);
+        });
+    } else {
+        // Fallback for older browsers
+        fallbackCopyTextToClipboard(youtubeUrl);
+    }
+}
+
+// Fallback copy method for older browsers
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            console.log('YouTube link copied to clipboard (fallback):', text);
+            showNotification('ইউটিউব লিঙ্ক কপি হয়েছে!', 'success');
+        } else {
+            console.error('Failed to copy link using fallback method');
+            showNotification('লিঙ্ক কপি করতে সমস্যা হয়েছে', 'error');
+        }
+    } catch (err) {
+        console.error('Fallback copy failed:', err);
+        showNotification('লিঙ্ক কপি করতে সমস্যা হয়েছে', 'error');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// Show notification to user
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.copy-notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `copy-notification fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-[10000] transition-all duration-300 transform translate-x-full`;
+    
+    // Set colors based on type
+    if (type === 'success') {
+        notification.className += ' bg-green-500 text-white';
+    } else if (type === 'error') {
+        notification.className += ' bg-red-500 text-white';
+    } else {
+        notification.className += ' bg-blue-500 text-white';
+    }
+    
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.classList.remove('translate-x-full');
+    }, 100);
+    
+    // Animate out and remove
+    setTimeout(() => {
+        notification.classList.add('translate-x-full');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+console.log('ZeroMA Premium - BALANCED SECURITY VIDEO PLAYER LOADED');
 console.log('✅ Custom controls enabled, ❌ YouTube functions blocked');
-console.log('📱 Mobile cards: No thumbnails, responsive layout');
-console.log('🖥️ Desktop cards: Sidebar with mobile format during playback');
-console.log('🎬 Fixed fullscreen button positioning');
