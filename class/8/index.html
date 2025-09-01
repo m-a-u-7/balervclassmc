@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>ZeroMA Premium - Classes</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Dailymotion Player API -->
-    <script src="https://api.dmcdn.net/all.js"></script>
-    <!-- YouTube IFrame API -->
-    <script src="https://www.youtube.com/iframe_api"></script>
     <style>
         /* Prevent text selection and context menu */
         * {
@@ -34,7 +30,7 @@
             pointer-events: auto;
         }
         
-        /* Block native controls completely */
+        /* Block YouTube native controls completely */
         .video-overlay {
             position: absolute;
             top: 0;
@@ -210,20 +206,6 @@
         .video-container:fullscreen {
             overflow: hidden;
         }
-
-        /* Platform badge */
-        .platform-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-            z-index: 5;
-        }
     </style>
 </head>
 <body class="font-sans" style="background-color: #F4F0E0;">
@@ -261,7 +243,7 @@
     <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <!-- Classes Grid -->
         <div id="cards-container" class="space-y-6">
-            <h2 class="text-3xl font-bold mb-6" style="color: #8B5A2B;">HSC 27 ACS Physics Cycle 1</h2>
+            <h2 class="text-3xl font-bold mb-6" style="color: #8B5A2B;">ACS HSC 27 Higher Math Academic (Cycle-1)</h2>
             <div id="cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Cards will be dynamically inserted here -->
             </div>
@@ -283,11 +265,8 @@
                 <!-- Quality Badge -->
                 <div id="qualityBadge" class="quality-badge">HD</div>
                 
-                <!-- Platform Badge -->
-                <div id="platformBadge" class="platform-badge">YouTube</div>
-                
-                <!-- Player Container -->
-                <div id="player-container"></div>
+                <!-- YouTube Player -->
+                <div id="youtube-player"></div>
                 
                 <!-- Video Overlay for Click Detection -->
                 <div id="videoOverlay" class="video-overlay"></div>
@@ -366,10 +345,10 @@
                                 <button id="qualityBtn" class="control-btn">Auto HD</button>
                                 <div id="qualityDropdown" class="dropdown-menu">
                                     <div class="dropdown-item" data-quality="auto">Auto HD</div>
-                                    <div class="dropdown-item" data-quality="1080">1080p HD</div>
-                                    <div class="dropdown-item" data-quality="720">720p HD</div>
-                                    <div class="dropdown-item" data-quality="480">480p</div>
-                                    <div class="dropdown-item" data-quality="360">360p</div>
+                                    <div class="dropdown-item" data-quality="hd1080">1080p HD</div>
+                                    <div class="dropdown-item" data-quality="hd720">720p HD</div>
+                                    <div class="dropdown-item" data-quality="large">480p</div>
+                                    <div class="dropdown-item" data-quality="medium">360p</div>
                                 </div>
                             </div>
                             
@@ -444,99 +423,244 @@
         </div>
     </footer>
 
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    
     <!-- Custom JavaScript -->
     <script>
-// Unified Video Player with YouTube and Dailymotion Support
+// Enhanced YouTube Player with Complete Custom Controls
+// Fixed all issues: desktop mode, navigation, controls blocking, cross-browser compatibility
 
-// Mock data for classes - updated with both YouTube and Dailymotion videos
+// Mock data for classes
 const classesData = [
-    // Dailymotion videos
     {
         id: 1,
-        type: 'dailymotion',
-        videoId: 'x9orywe',
-        title: 'HSC 27 Physics Cycle Orientation Class || Apurbo || Mashrur',
-        duration: '82:59',
-        noteLink: ''
+        videoId: 'LH98HtF8ZWw',
+        title: 'Matrices & Determiner ✘ Lecture : 01 ✘ MATH CYCLE - 01',
+        duration: '1:36:11',
+        noteLink: 'https://drive.google.com/file/d/1tJnBIAJMhlDIcTvuDXrcFdxe2F1_0lxE/view?usp=drivesdk'
     },
     {
         id: 2,
-        type: 'dailymotion',
-        videoId: 'x9orywe',
-        title: 'Vector ✘ Lecture : 02 ✘ ACS PHYSICS CYCLE 01 HSC 27',
-        duration: '94:55',
-        noteLink: 'https://drive.google.com/file/d/1glBxYKF1vAJGnqIVNNL_Ew0tlguUyfkT/view?usp=sharing'
+        videoId: 'Q24DF5k6NOg',
+        title: 'Matrix × Lecture : 02',
+        duration: '1:26:24',
+        noteLink: 'https://drive.google.com/file/d/1tB6GUTLmY6sSJwiGs9JDya4LufpPraOF/view?usp=drivesdk'
     },
     {
         id: 3,
-        type: 'dailymotion',
-        videoId: 'x9orywe',
-        title: 'Vector × Lecture : 03 × HSC 27',
-        duration: '109:19',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
+        videoId: 'u3cDEn1fYWE',
+        title: 'Matrix × Lecture : 03',
+        duration: '1:27:48',
+        noteLink: 'https://drive.google.com/file/d/1fvVszQ1vWMoFZdxlh35Xv1I1wvn4RRD1/view?usp=drivesdk'
     },
     {
         id: 4,
-        type: 'dailymotion',
-        videoId: 'x9orywe',
-        title: 'Vector × Lecture : 04 × ACS PHYSICS CYCLE 1 HSC 27',
-        duration: '72:44',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
+        videoId: 'vqUuah_v9w0',
+        title: 'ম্যাট্রিক্স ও নির্ণায়ক - ক্যালকুলেটর হ্যাক্স - 991 ES/ES plus, 991 EX, CW',
+        duration: '1:28:05',
+        noteLink: 'https://drive.google.com/drive/folders/1Vy0_6V5XZh1ZTsFsGrhTD8hHTE8lzUCc'
     },
     {
         id: 5,
-        type: 'dailymotion',
-        videoId: 'x9orywe',
-        title: 'HSC 27 ⊕ Vector ⊕ Lecture : 05 ⊕ ACS PHYSICS CYCLE - 01',
-        duration: '77:59',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
+        videoId: 'I5vEij8NBEg',
+        title: 'Matrix ✘ Lecture : 04',
+        duration: '1:09:33',
+        noteLink: 'https://drive.google.com/file/d/1Uml2wlqYSHp9gJw9DCPiXvJc0EZXCBg3/view?pli=1'
     },
-    // YouTube videos
     {
         id: 6,
-        type: 'youtube',
-        videoId: 'e_I5nxZ8SCc',
-        title: 'HSC 27 Physics Cycle Orientation Class || Apurbo || Mashrur',
-        duration: '82:59',
-        noteLink: ''
+        videoId: 'a7jI3MNw5b0',
+        title: 'Doubt Solve Class 01-04',
+        duration: '1:46:41',
+        noteLink: 'https://drive.google.com/file/d/1yocd6zgG0Numq5jsTWjHLt8-uHpHmFzs/view?usp=sharing'
     },
     {
         id: 7,
-        type: 'youtube',
-        videoId: 'wxrsT4bYkZA',
-        title: 'Vector ✘ Lecture : 02 ✘ ACS PHYSICS CYCLE 01 HSC 27',
-        duration: '94:55',
-        noteLink: 'https://drive.google.com/file/d/1glBxYKF1vAJGnqIVNNL_Ew0tlguUyfkT/view?usp=sharing'
+        videoId: 'Rqjprn0K9T0',
+        title: 'ম্যাট্রিক্স ✘ Lecture : 05',
+        duration: '1:42:33',
+        noteLink: 'https://drive.google.com/file/d/1jzu07kcFpQdivuAIl_RPx-bDKmKSfbOb/view'
     },
     {
         id: 8,
-        type: 'youtube',
-        videoId: 'BBa-fdTC33M',
-        title: 'Vector × Lecture : 03 × HSC 27',
-        duration: '109:19',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
+        videoId: 'TkmHsmswDWk',
+        title: 'Matrix ⊕ Lecture : 06',
+        duration: '1:52:59',
+        noteLink: 'https://drive.google.com/file/d/1xO4tFQ42ZbXpRF_Sx78P0gNWYsqhTet0/view'
     },
     {
         id: 9,
-        type: 'youtube',
-        videoId: 'kxz86xVcx0w',
-        title: 'Vector × Lecture : 04 × ACS PHYSICS CYCLE 1 HSC 27',
-        duration: '72:44',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
+        videoId: 'hopVc5HfcpU',
+        title: 'Matrix ✘ Lecture : 07',
+        duration: '1:26:40',
+        noteLink: 'https://drive.google.com/file/d/1XIvmkm00nOJiEyJpZjywFU7RVzRbQHzy/view'
     },
     {
         id: 10,
-        type: 'youtube',
-        videoId: 'fQcwoY_RvdU',
-        title: 'HSC 27 ⊕ Vector ⊕ Lecture : 05 ⊕ ACS PHYSICS CYCLE - 01',
-        duration: '77:59',
-        noteLink: 'https://docs.google.com/spreadsheets/u/0/d/e/2PACX-1vRSsEgW-P5Gu5ZBH_KH_LXmEk_ZLlYjOPjAwSvC3QnZMLgpmE9KNJhrYSBVxQTwxBYuEez4vpui00k_/pubhtml?fbclid=IwQ0xDSwLHIYNleHRuA2FlbQIxMAABHtNaauq3lbbNAQ7QRJGfKsD57Mu7lB0Duh3Y-z4lM9Za8ualsVoXQPoX6clf_aem_e29d59Am0VdpmRHKQrFL7g&pli=1'
+        videoId: 'eoV0TP_Cqqw',
+        title: 'Matrix × Lecture : 08',
+        duration: '59:17',
+        noteLink: ''
+    },
+    {
+        id: 11,
+        videoId: '6Nw3dqhn9q0',
+        title: 'Matrix × Lecture : 09',
+        duration: '1:34:07',
+        noteLink: ''
+    },
+    {
+        id: 12,
+        videoId: '6KNoZbG_k1c',
+        title: 'Matrix × Lecture : 10',
+        duration: '1:09:16',
+        noteLink: ''
+    },
+    {
+        id: 13,
+        videoId: 'sy7FZAdESwQ',
+        title: 'Doubt Solve Class 08-10',
+        duration: '',
+        noteLink: ''
+    },
+    {
+        id: 14,
+        videoId: 'z8xEcK-unFs',
+        title: 'Higher Math × সরলরেখা × Cycle - 01 × LECTURE - 01',
+        duration: '1:38:42',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr?usp=sharing'
+    },
+    {
+        id: 15,
+        videoId: 'kuzEJtfNK5A',
+        title: 'সরলরেখা ✘ Lecture : 02 ⊕ ACS MATH CYCLE 1 || HSC 27',
+        duration: '1:43:56',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 16,
+        videoId: 'J4ZKYZw6hM8',
+        title: 'সরলরেখা ✘ Lecture : 03 ✘ MATH CYCLE - 01 × HSC 27',
+        duration: '1:30:09',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 17,
+        videoId: 'LZTn3lnSmvw',
+        title: 'সরলরেখা ✘ Lecture : 04 ✘ ACS MATH CYCLE - 01',
+        duration: '1:48:19',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 18,
+        videoId: 'zEm-m3NFi5U',
+        title: 'সরলরেখা ✘ Lecture : 05',
+        duration: '1:15:55',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 19,
+        videoId: 'YZLMz0LLTA0',
+        title: 'সরলরেখা ✘ Lecture : 06 ✪ HSC 27',
+        duration: '1:40:17',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 20,
+        videoId: '',
+        title: 'সরলরেখা ✘ Lecture : 07 ✪ HSC 27',
+        duration: '1:38:14',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 21,
+        videoId: 'm04nDJcKTDA',
+        title: 'সরলরেখা ✘ Lecture : 08',
+        duration: '1:12:51',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 22,
+        videoId: 'y8DH9fHT-Uw',
+        title: 'Doubt Solve Class ✘ Lecture 5 to 8',
+        duration: '1:44:50',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 23,
+        videoId: '26m2EhIeoaE',
+        title: 'সরলরেখা ✘ Lecture : 09',
+        duration: '1:02:17',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 24,
+        videoId: 'UwmdkrZ7Ruo',
+        title: 'সরলরেখা ✘ Lecture : 10',
+        duration: '1:23:38',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 25,
+        videoId: '1Jt5K4ytx8U',
+        title: 'সরলরেখা ✘ Lecture : 11',
+        duration: '1:30:38',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 26,
+        videoId: 'FXq7WS32yBo',
+        title: 'সরলরেখা ÷ Doubt Solve Class ✘ Lecture : 9 to 11',
+        duration: '2:05:11',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 27,
+        videoId: 'tRjk4ggF0t8',
+        title: 'সরলরেখা ✘ Lecture : 12',
+        duration: '1:17:12',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 28,
+        videoId: 'xFk6c0rk65k',
+        title: 'সরলরেখা ✘ Lecture : 13',
+        duration: '1:27:04',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 29,
+        videoId: 'irimBrK5e7w',
+        title: 'সরলরেখা ✘ Lecture : 14',
+        duration: '1:13:46',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 30,
+        videoId: 'nFIklrx1r6o',
+        title: 'সরলরেখা ✘ Lecture : 15',
+        duration: '1:33:24',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 31,
+        videoId: 'brI_v2hT5cM',
+        title: 'সরলরেখা ✘ Lecture : 16',
+        duration: '1:39:10',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
+    },
+    {
+        id: 32,
+        videoId: 'We_t_y-xik8',
+        title: 'সরলরেখা ✘ Lecture : 17',
+        duration: '1:16:06',
+        noteLink: 'https://drive.google.com/drive/folders/1TSEnoRv0MZ3d0DCadkTRPmDWJjwnJPVr'
     }
 ];
 
 // Global variables
 let player = null;
-let currentPlayerType = null;
 let currentVideoIndex = 0;
 let progressInterval = null;
 let controlsHideTimeout = null;
@@ -635,7 +759,7 @@ function setupGlobalEventListeners() {
 
 // Prevent context menu
 function preventContextMenu(e) {
-    if (e.target.closest('.video-container') || e.target.closest('#player-container')) {
+    if (e.target.closest('.video-container') || e.target.closest('#youtube-player')) {
         e.preventDefault();
         return false;
     }
@@ -677,20 +801,11 @@ function playVideo(index) {
     const videoTitle = document.getElementById('video-title');
     if (videoTitle) videoTitle.textContent = classItem.title;
 
-    // Set platform badge
-    const platformBadge = document.getElementById('platformBadge');
-    if (platformBadge) platformBadge.textContent = classItem.type.charAt(0).toUpperCase() + classItem.type.slice(1);
-
     // Clean up previous player completely
     cleanupPlayer();
 
-    // Initialize new player based on type
-    currentPlayerType = classItem.type;
-    if (classItem.type === 'youtube') {
-        initYouTubePlayer(classItem.videoId);
-    } else if (classItem.type === 'dailymotion') {
-        initDailymotionPlayer(classItem.videoId);
-    }
+    // Initialize new player
+    initYouTubePlayer(classItem.videoId);
 
     // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -721,24 +836,14 @@ function cleanupPlayer() {
     cleanupEventListeners();
 
     // Destroy existing player
-    if (player && currentPlayerType === 'youtube' && typeof player.destroy === 'function') {
+    if (player && typeof player.destroy === 'function') {
         try {
             player.destroy();
         } catch (e) {
-            console.warn('Error destroying YouTube player:', e);
-        }
-    } else if (player && currentPlayerType === 'dailymotion' && typeof player.destroy === 'function') {
-        try {
-            player.destroy();
-        } catch (e) {
-            console.warn('Error destroying Dailymotion player:', e);
+            console.warn('Error destroying player:', e);
         }
     }
     player = null;
-    
-    // Clear the player container
-    const playerContainer = document.getElementById('player-container');
-    if (playerContainer) playerContainer.innerHTML = '';
     
     // Reset UI elements
     resetProgressBar();
@@ -777,14 +882,8 @@ function initYouTubePlayer(videoId) {
     const loadingSpinner = document.getElementById('loadingSpinner');
     if (loadingSpinner) loadingSpinner.style.display = 'block';
 
-    // Create player container
-    const playerContainer = document.getElementById('player-container');
-    if (!playerContainer) return;
-    
-    playerContainer.innerHTML = '<div id="yt-player"></div>';
-    
-    // Initialize YouTube player
-    player = new YT.Player('yt-player', {
+    // Enhanced player configuration to block ALL native controls
+    player = new YT.Player('youtube-player', {
         height: '100%',
         width: '100%',
         videoId: videoId,
@@ -804,55 +903,15 @@ function initYouTubePlayer(videoId) {
             'widget_referrer': window.location.href
         },
         events: {
-            'onReady': onYouTubePlayerReady,
-            'onStateChange': onYouTubePlayerStateChange,
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
             'onError': onPlayerError
         }
     });
 }
 
-// Initialize Dailymotion player with enhanced controls blocking
-function initDailymotionPlayer(videoId) {
-    if (isDestroying) return;
-    
-    // Show loading spinner
-    const loadingSpinner = document.getElementById('loadingSpinner');
-    if (loadingSpinner) loadingSpinner.style.display = 'block';
-
-    // Create player container
-    const playerContainer = document.getElementById('player-container');
-    if (!playerContainer) return;
-    
-    playerContainer.innerHTML = '<div id="dm-player"></div>';
-    
-    // Initialize Dailymotion player
-    player = DM.player('dm-player', {
-        video: videoId,
-        width: '100%',
-        height: '100%',
-        params: {
-            controls: false, // Hide all controls
-            autoplay: false, // We'll control autoplay
-            mute: 0, // Start unmuted
-            quality: '1080', // Force highest quality
-            'ui-logo': false, // Hide logo
-            'ui-start-screen-info': false // Hide info
-        },
-        origin: window.location.origin
-    });
-    
-    // Set up event listeners
-    player.addEventListener('apiready', onDailymotionPlayerReady);
-    player.addEventListener('play', onDailymotionPlayerPlay);
-    player.addEventListener('pause', onDailymotionPlayerPause);
-    player.addEventListener('ended', onPlayerEnded);
-    player.addEventListener('error', onPlayerError);
-    player.addEventListener('waiting', onPlayerWaiting);
-    player.addEventListener('start', onPlayerStart);
-}
-
-// YouTube Player ready handler
-function onYouTubePlayerReady(event) {
+// Player ready handler
+function onPlayerReady(event) {
     if (isDestroying) return;
     
     isPlayerReady = true;
@@ -878,44 +937,11 @@ function onYouTubePlayerReady(event) {
     }, 1000);
 }
 
-// Dailymotion Player ready handler
-function onDailymotionPlayerReady() {
-    if (isDestroying) return;
-    
-    isPlayerReady = true;
-    
-    // Hide loading spinner
-    const loadingSpinner = document.getElementById('loadingSpinner');
-    if (loadingSpinner) loadingSpinner.style.display = 'none';
-
-    // Block native controls completely
-    blockNativeControls();
-    
-    // Setup all custom controls
-    setupAllCustomControls();
-    
-    // Show custom controls initially
-    showControls();
-    
-    // Start quality optimization
-    setTimeout(() => {
-        if (isPlayerReady && !isDestroying) {
-            startQualityOptimization();
-        }
-    }, 1000);
-}
-
-// Block native controls completely
+// Block native YouTube controls completely
 function blockNativeControls() {
     if (!player || isDestroying) return;
     
-    let iframe;
-    if (currentPlayerType === 'youtube') {
-        iframe = document.querySelector('#player-container iframe');
-    } else if (currentPlayerType === 'dailymotion') {
-        iframe = document.querySelector('#player-container iframe');
-    }
-    
+    const iframe = player.getIframe();
     if (iframe) {
         // Prevent all mouse events on the iframe
         iframe.style.pointerEvents = 'none';
@@ -931,8 +957,8 @@ function blockNativeControls() {
     }
 }
 
-// YouTube Player state change handler
-function onYouTubePlayerStateChange(event) {
+// Player state change handler
+function onPlayerStateChange(event) {
     if (isDestroying) return;
     
     const isPlaying = event.data === YT.PlayerState.PLAYING;
@@ -950,59 +976,19 @@ function onYouTubePlayerStateChange(event) {
     setTimeout(blockNativeControls, 100);
 }
 
-// Dailymotion Player play handler
-function onDailymotionPlayerPlay() {
-    if (isDestroying) return;
-    
-    // Update play/pause icons
-    updatePlayPauseIcons(true);
-    startProgressUpdate();
-}
-
-// Dailymotion Player pause handler
-function onDailymotionPlayerPause() {
-    if (isDestroying) return;
-    
-    // Update play/pause icons
-    updatePlayPauseIcons(false);
-    stopProgressUpdate();
-}
-
-// Player ended handler
-function onPlayerEnded() {
-    if (isDestroying) return;
-    
-    // Auto-play next video if available
-    if (currentVideoIndex < classesData.length - 1) {
-        setTimeout(() => {
-            playVideo(currentVideoIndex + 1);
-        }, 2000);
-    }
-}
-
 // Player error handler
-function onPlayerError(e) {
-    console.error('Player Error:', e);
+function onPlayerError(event) {
+    console.error('YouTube Player Error:', event.data);
     
     const loadingSpinner = document.getElementById('loadingSpinner');
     if (loadingSpinner) {
         loadingSpinner.innerHTML = `
             <div class="text-white text-center">
                 <p>Error loading video</p>
-                <p class="text-sm opacity-75">Please try again later</p>
+                <p class="text-sm opacity-75">Error code: ${event.data}</p>
             </div>
         `;
     }
-}
-
-// Player waiting handler
-function onPlayerWaiting() {
-    // Show loading indicator if needed
-}
-
-// Player start handler
-function onPlayerStart() {
-    // Video started playing
 }
 
 // Update play/pause icons
@@ -1051,18 +1037,10 @@ function setupControlsVisibility() {
         
         // Toggle play/pause on click
         if (player && isPlayerReady) {
-            if (currentPlayerType === 'youtube') {
-                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-                    player.pauseVideo();
-                } else {
-                    player.playVideo();
-                }
-            } else if (currentPlayerType === 'dailymotion') {
-                if (player.paused) {
-                    player.play();
-                } else {
-                    player.pause();
-                }
+            if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
             }
         }
     };
@@ -1140,18 +1118,10 @@ function setupPlayPauseControls() {
         const clickHandler = () => {
             if (!player || !isPlayerReady) return;
             
-            if (currentPlayerType === 'youtube') {
-                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-                    player.pauseVideo();
-                } else {
-                    player.playVideo();
-                }
-            } else if (currentPlayerType === 'dailymotion') {
-                if (player.paused) {
-                    player.play();
-                } else {
-                    player.pause();
-                }
+            if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
             }
         };
         
@@ -1168,14 +1138,8 @@ function setupSeekControls() {
         const backHandler = () => {
             if (!player || !isPlayerReady) return;
             
-            let currentTime;
-            if (currentPlayerType === 'youtube') {
-                currentTime = player.getCurrentTime();
-                player.seekTo(Math.max(0, currentTime - 10));
-            } else if (currentPlayerType === 'dailymotion') {
-                currentTime = player.currentTime;
-                player.seek(Math.max(0, currentTime - 10));
-            }
+            const currentTime = player.getCurrentTime();
+            player.seekTo(Math.max(0, currentTime - 10));
         };
         
         addTrackedEventListener(skipBackBtn, 'click', backHandler);
@@ -1185,16 +1149,9 @@ function setupSeekControls() {
         const forwardHandler = () => {
             if (!player || !isPlayerReady) return;
             
-            let currentTime, duration;
-            if (currentPlayerType === 'youtube') {
-                currentTime = player.getCurrentTime();
-                duration = player.getDuration();
-                player.seekTo(Math.min(duration, currentTime + 10));
-            } else if (currentPlayerType === 'dailymotion') {
-                currentTime = player.currentTime;
-                duration = player.duration;
-                player.seek(Math.min(duration, currentTime + 10));
-            }
+            const currentTime = player.getCurrentTime();
+            const duration = player.getDuration();
+            player.seekTo(Math.min(duration, currentTime + 10));
         };
         
         addTrackedEventListener(skipForwardBtn, 'click', forwardHandler);
@@ -1211,17 +1168,10 @@ function setupProgressBar() {
             
             const rect = e.target.getBoundingClientRect();
             const percent = (e.clientX - rect.left) / rect.width;
+            const duration = player.getDuration();
             
-            if (currentPlayerType === 'youtube') {
-                const duration = player.getDuration();
-                if (duration > 0) {
-                    player.seekTo(duration * percent);
-                }
-            } else if (currentPlayerType === 'dailymotion') {
-                const duration = player.duration;
-                if (duration > 0) {
-                    player.seek(duration * percent);
-                }
+            if (duration > 0) {
+                player.seekTo(duration * percent);
             }
         };
         
@@ -1238,22 +1188,12 @@ function setupVolumeControls() {
         const muteHandler = () => {
             if (!player || !isPlayerReady) return;
             
-            if (currentPlayerType === 'youtube') {
-                if (player.isMuted()) {
-                    player.unMute();
-                    updateVolumeIcons(false);
-                } else {
-                    player.mute();
-                    updateVolumeIcons(true);
-                }
-            } else if (currentPlayerType === 'dailymotion') {
-                if (player.muted) {
-                    player.setMute(false);
-                    updateVolumeIcons(false);
-                } else {
-                    player.setMute(true);
-                    updateVolumeIcons(true);
-                }
+            if (player.isMuted()) {
+                player.unMute();
+                updateVolumeIcons(false);
+            } else {
+                player.mute();
+                updateVolumeIcons(true);
             }
         };
         
@@ -1264,14 +1204,8 @@ function setupVolumeControls() {
         const volumeHandler = (e) => {
             if (!player || !isPlayerReady) return;
             
-            const volume = parseInt(e.target.value);
-            if (currentPlayerType === 'youtube') {
-                player.setVolume(volume);
-                updateVolumeIcons(volume === 0);
-            } else if (currentPlayerType === 'dailymotion') {
-                player.setVolume(volume / 100);
-                updateVolumeIcons(volume === 0);
-            }
+            player.setVolume(parseInt(e.target.value));
+            updateVolumeIcons(parseInt(e.target.value) === 0);
         };
         
         addTrackedEventListener(volumeSlider, 'input', volumeHandler);
@@ -1316,11 +1250,7 @@ function setupSpeedControls() {
                 if (!player || !isPlayerReady) return;
                 
                 const speed = parseFloat(e.target.dataset.speed);
-                if (currentPlayerType === 'youtube') {
-                    player.setPlaybackRate(speed);
-                } else if (currentPlayerType === 'dailymotion') {
-                    player.setPlaybackRate(speed);
-                }
+                player.setPlaybackRate(speed);
                 speedBtn.textContent = speed + 'x';
                 speedDropdown.classList.remove('show');
             };
@@ -1361,20 +1291,7 @@ function setupQualityControls() {
                         clearInterval(qualityCheckInterval);
                         qualityCheckInterval = null;
                     }
-                    
-                    if (currentPlayerType === 'youtube') {
-                        // Map quality values for YouTube
-                        const qualityMap = {
-                            '1080': 'hd1080',
-                            '720': 'hd720',
-                            '480': 'large',
-                            '360': 'medium'
-                        };
-                        player.setPlaybackQuality(qualityMap[quality] || 'auto');
-                    } else if (currentPlayerType === 'dailymotion') {
-                        player.setQuality(quality);
-                    }
-                    
+                    player.setPlaybackQuality(quality);
                     qualityBtn.textContent = e.target.textContent;
                 }
                 
@@ -1518,11 +1435,7 @@ function closeVideo() {
 
 // Open note function
 function openNote(noteLink) {
-    if (noteLink && noteLink.trim() !== '') {
-        window.open(noteLink, '_blank', 'noopener,noreferrer');
-    } else {
-        alert('No note/PDF available for this video.');
-    }
+    window.open(noteLink, '_blank', 'noopener,noreferrer');
 }
 
 // Progress update functions
@@ -1533,14 +1446,8 @@ function startProgressUpdate() {
         if (!player || !isPlayerReady || isDestroying) return;
         
         try {
-            let currentTime, duration;
-            if (currentPlayerType === 'youtube') {
-                currentTime = player.getCurrentTime();
-                duration = player.getDuration();
-            } else if (currentPlayerType === 'dailymotion') {
-                currentTime = player.currentTime;
-                duration = player.duration;
-            }
+            const currentTime = player.getCurrentTime();
+            const duration = player.getDuration();
             
             if (duration > 0) {
                 const percentage = (currentTime / duration) * 100;
@@ -1587,43 +1494,34 @@ function startQualityOptimization() {
         clearInterval(qualityCheckInterval);
     }
     
-    // For YouTube, we need to check available qualities
-    if (currentPlayerType === 'youtube') {
-        qualityCheckInterval = setInterval(() => {
-            if (!player || !isPlayerReady || isDestroying) return;
+    qualityCheckInterval = setInterval(() => {
+        if (!player || !isPlayerReady || isDestroying) return;
+        
+        try {
+            const availableQualities = player.getAvailableQualityLevels();
             
-            try {
-                const availableQualities = player.getAvailableQualityLevels();
+            if (availableQualities && availableQualities.length > 0) {
+                let selectedQuality = 'large';
+                let badgeText = 'HD';
                 
-                if (availableQualities && availableQualities.length > 0) {
-                    let selectedQuality = 'large';
-                    let badgeText = 'HD';
-                    
-                    if (availableQualities.includes('hd1080')) {
-                        selectedQuality = 'hd1080';
-                        badgeText = '1080p HD';
-                    } else if (availableQualities.includes('hd720')) {
-                        selectedQuality = 'hd720';
-                        badgeText = '720p HD';
-                    } else if (availableQualities.includes('large')) {
-                        selectedQuality = 'large';
-                        badgeText = '480p HD';
-                    }
-                    
-                    player.setPlaybackQuality(selectedQuality);
-                    updateQualityBadge(badgeText);
+                if (availableQualities.includes('hd1080')) {
+                    selectedQuality = 'hd1080';
+                    badgeText = '1080p HD';
+                } else if (availableQualities.includes('hd720')) {
+                    selectedQuality = 'hd720';
+                    badgeText = '720p HD';
+                } else if (availableQualities.includes('large')) {
+                    selectedQuality = 'large';
+                    badgeText = '480p HD';
                 }
-            } catch (e) {
-                console.warn('Quality optimization error:', e);
+                
+                player.setPlaybackQuality(selectedQuality);
+                updateQualityBadge(badgeText);
             }
-        }, 3000);
-    } else if (currentPlayerType === 'dailymotion') {
-        // Dailymotion automatically selects the best quality, so we just set it to auto
-        if (player && isPlayerReady) {
-            player.setQuality('auto');
-            updateQualityBadge('Auto HD');
+        } catch (e) {
+            console.warn('Quality optimization error:', e);
         }
-    }
+    }, 3000);
 }
 
 // Update quality badge
@@ -1651,65 +1549,34 @@ function handleKeyboardShortcuts(e) {
         switch (e.code) {
             case 'Space':
                 e.preventDefault();
-                if (currentPlayerType === 'youtube') {
-                    if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-                        player.pauseVideo();
-                    } else {
-                        player.playVideo();
-                    }
-                } else if (currentPlayerType === 'dailymotion') {
-                    if (player.paused) {
-                        player.play();
-                    } else {
-                        player.pause();
-                    }
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                } else {
+                    player.playVideo();
                 }
                 break;
                 
             case 'ArrowLeft':
                 e.preventDefault();
-                let currentTime;
-                if (currentPlayerType === 'youtube') {
-                    currentTime = player.getCurrentTime();
-                    player.seekTo(Math.max(0, currentTime - 10));
-                } else if (currentPlayerType === 'dailymotion') {
-                    currentTime = player.currentTime;
-                    player.seek(Math.max(0, currentTime - 10));
-                }
+                const currentTime = player.getCurrentTime();
+                player.seekTo(Math.max(0, currentTime - 10));
                 break;
                 
             case 'ArrowRight':
                 e.preventDefault();
-                let currentTimeRight, duration;
-                if (currentPlayerType === 'youtube') {
-                    currentTimeRight = player.getCurrentTime();
-                    duration = player.getDuration();
-                    player.seekTo(Math.min(duration, currentTimeRight + 10));
-                } else if (currentPlayerType === 'dailymotion') {
-                    currentTimeRight = player.currentTime;
-                    duration = player.duration;
-                    player.seek(Math.min(duration, currentTimeRight + 10));
-                }
+                const currentTimeRight = player.getCurrentTime();
+                const duration = player.getDuration();
+                player.seekTo(Math.min(duration, currentTimeRight + 10));
                 break;
                 
             case 'KeyM':
                 e.preventDefault();
-                if (currentPlayerType === 'youtube') {
-                    if (player.isMuted()) {
-                        player.unMute();
-                        updateVolumeIcons(false);
-                    } else {
-                        player.mute();
-                        updateVolumeIcons(true);
-                    }
-                } else if (currentPlayerType === 'dailymotion') {
-                    if (player.muted) {
-                        player.setMute(false);
-                        updateVolumeIcons(false);
-                    } else {
-                        player.setMute(true);
-                        updateVolumeIcons(true);
-                    }
+                if (player.isMuted()) {
+                    player.unMute();
+                    updateVolumeIcons(false);
+                } else {
+                    player.mute();
+                    updateVolumeIcons(true);
                 }
                 break;
                 
@@ -1810,12 +1677,11 @@ if (isMobile) {
 document.addEventListener('visibilitychange', () => {
     if (document.hidden && player && isPlayerReady) {
         // Optionally pause when page is hidden
-        // if (currentPlayerType === 'youtube') player.pauseVideo();
-        // else if (currentPlayerType === 'dailymotion') player.pause();
+        // player.pauseVideo();
     }
 });
 
-console.log('Unified Video Player initialized with YouTube and Dailymotion support');
+console.log('Enhanced YouTube Player initialized with complete custom controls');
     </script>
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";

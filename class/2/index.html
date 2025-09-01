@@ -28,6 +28,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://www.youtube.com/iframe_api"></script>
+
+<style>
+.video-container {
+  display: inline-block;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.video-header {
+  background: #f9f9f9;
+  text-align: right;
+  padding: 5px 10px;
+}
+.video-header button {
+  padding: 6px 12px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.video-header button:hover {
+  background: #0056b3;
+}
+</style>
+
 </head>
 <body class="bg-cream-1 font-inter">
     <!-- Header -->
@@ -406,12 +433,6 @@
                                         </div>
                                     </div>
 
-                                    <button id="copyLinkBtn" class="text-white hover:text-blue-400 transition-colors" title="Copy YouTube Link">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                                        </svg>
-                                    </button>
-
                                     <button id="fullscreenBtn" class="text-white hover:text-gray-300 transition-colors">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
@@ -541,12 +562,6 @@
                                 </div>
                             </div>
 
-                            <button id="mobileCopyLinkBtn" class="text-white hover:text-blue-400 transition-colors" title="Copy YouTube Link">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                                </svg>
-                            </button>
-
                             <button id="mobileFullscreenBtn" class="text-white hover:text-gray-300 transition-colors">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
@@ -590,5 +605,16 @@
     </footer>
 
     <script src="script.js"></script>
+
+<script>
+function copyLink(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    alert("Link copied to clipboard!");
+  }).catch(err => {
+    console.error("Failed to copy: ", err);
+  });
+}
+</script>
+
 </body>
 </html>
